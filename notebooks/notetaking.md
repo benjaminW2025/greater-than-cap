@@ -158,17 +158,26 @@ Layer 9 attention ablation accuracies: 91
 Layer 10 attention ablation accuracies: 93
 Layer 11 attention ablation accuracies: 94
 
+### Head combination ablation
+
+#### Layer 1
+
+#### Layer 9
+(False, True, False, False, False, False, False, False, False, False, False, False) 90
+(False, True, False, False, False, False, True, False, False, False, False, False) 91
+(False, False, False, False, False, False, True, False, False, False, False, False) 93
+(True, False, True, True, True, True, True, True, True, True, True, True) 94
+
 ### Per layer MLP ablation test
-Layer 0 MLP ablation accuracy 48
+Layer 0 MLP ablation accuracy 75
 Layer 1 MLP ablation accuracy 93
 Layer 2 MLP ablation accuracy 93
 Layer 3 MLP ablation accuracy 93
 Layer 4 MLP ablation accuracy 94
 Layer 5 MLP ablation accuracy 93
 Layer 6 MLP ablation accuracy 94
-Layer 7 MLP ablation accuracy 94
+Layer 7 MLP ablation accuracy 95
 Layer 8 MLP ablation accuracy 94
-Layer 9 MLP ablation accuracy 69
-Layer 10 MLP ablation accuracy 87
+Layer 9 MLP ablation accuracy 68
+Layer 10 MLP ablation accuracy 82
 Layer 11 MLP ablation accuracy 94
-
