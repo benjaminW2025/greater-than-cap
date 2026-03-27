@@ -2,17 +2,19 @@
 
 ## Week One
 
-The objective of the first week of this project was to identify important components and begin developing an initial map of the circuit computing the greater than capability in GPT-2 Small. Through ablation tests and logit lens visualization, we outline a higher level understanding of what components are necessary for the task.
+The objective of the first week of this project was to identify important components and begin developing an initial map of the circuit computing the greater than capability in GPT-2 small. Through ablation tests and logit lens visualization, we outline a higher level understanding of what components are necessary for the task.
 
 ### Methods and Setup
 
 All experiments used the TransformerLens library developed by Neel Nanda. The GPT-2 Small model was loaded through TransformerLens, and inferences were run on prompts of the form "The war lasted from 18XX to 18" where XX was a two digit number spanning 01 to 99. Since numbers ending in 00 are more common than numbers with other ending digits, we do not consider XX=00 to try to measure the natural behavior of the model. The prompt is crafted to provide a natural language setting for a mathematical task, intending to capture how the model may have encountered such a task in its training data; more prompt formats are explored in the ```setup``` folder of the repository. A possible extension to explore in week three of the project is to see how this circuit performs in other natural language greater than settings.
 
-### Ablation tests
+### Logit Lenses
 
 The first thing that we analyze is the logit lens per layer of the model. This was done by extracting the output of each layer's and then applying the final normalization layer and outward projection to get the logits. Logits for every prompt XX=01 to XX=99 were plotted to visualize the model's behavior on the overall task. Notably, the logit lenses have horizontal structure in layers 1-6, indicating that these layers do not perform the greater than computation (we would expect the predictions to begin developing a diagonal structure once the model is properly performing greater than). Diagonal structure initially develops in layer 7, and becomes more refined by layer 9, suggesting that these layers are where GPT-2 compute greater than.
 
 <p align="center"><img src="figures/logit_lens_layer_9_png.png" width="300"/></p>
+
+### Ablation Tests
 
 To confirm our findings, we run ablation tests on the attention heads. The baseline accuracy of GPT-2 small is 94 correctly predicted prompts out of 99. First we run ablation tests layer by layer, zeroing out the attention outputs of every head per layer. Interestingly, we do not see a significant drop in model accuracy when we ablate layers 7 and 8, but see significant decrease in accuracy after ablating layers 0 and 9, with ablated accuracies of 75 and 91 out of 99 respectively. Since our logit lens indicates that layers 7 and 8 compute greater than but the attention ablation tests do not reveal any notable drops in performance, we suspect that the attention output of layers 7 and 8 must be indirectly contributing to the circuit.
 
@@ -22,6 +24,8 @@ Next, we investigate ablating the MLPs for each layer. Here we find that the gre
 
 It is noteworthy to also discuss that the accuracy of the model dropped down to 75 out of 99 when ablating the attention outputs and when ablating the MLP. This means that layer 0 is foundational to the peformance of the model, something we expect out of an early layer which processes fundamental, basic pieces of information. Furthermore, experimenting with ablating combinations of attention heads in layer 0 actually dropped performance more than ablating the layer as a whole. This suggests an intra-layer head competition environment, where some heads actively improve the greater than performance and others inhibit it. I expect to dig deeper into this finding during my extension period.
 
+### Attention Analysis
+
 Finally, we visualize the attention patterns of the attention heads from important layers in our circuit. Plotting the attention patterns of layer 0 yields exactly what we would expect from an early layer that propogates basic positional information: some heads attend to the endoftext token, while some attend to the last token. When studying layers 7, 8, 9, we begin to see much more interesting structure. The heads in layer 7 almost exclusively attend to the first token, suggesting that information written to the residual stream from past layers is stored in the endoftext token. In layer 8, we see that head 6 begins to attend to the year token in the prompt, a pattern which continues into layer 9 where a much more refined attention head 1 (which we identified as important earlier) does the exact same thing. As such, these later layers process year information that is directly used in the greater than computation.
 
-<img src="figures/attn_pat_l7_h2.png" width="300"/><img src="figures/attn_pat_l9_h1.png" width="300"/>
+<p align="center"><img src="figures/attn_pat_l7_h2.png" width="300"/><img src="figures/attn_pat_l9_h1.png" width="300"/><p>
