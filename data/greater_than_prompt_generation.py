@@ -16,7 +16,7 @@ def generate_dataset(num_prompts):
         compare = "18" + str(num)
 
         # Construct the prompt
-        prompt = "The war lasted from " + compare + " to 18"
+        prompt = "The war lasted from the year " + compare + " to the year 18"
 
         # Save the generated number and prompt
         output.append((prompt, num))
@@ -34,7 +34,7 @@ def generate_full_dataset():
     for i in range(1, 100):
         # Construct the prompt
         num = f"{i:02d}"
-        prompt = "The war lasted from 18" + str(num) + " to 18"
+        prompt = "The war lasted from the year 18" + str(num) + " to the year 18"
 
         # Append prompt
         output.append((prompt, int(num)))
