@@ -50,3 +50,4 @@ Now we have a complete idea of what components and through what paths our circui
 
 # Week Three
 
+The original paper notes that when they ran generalization tests on new prompt formats, that one of their new tasks required MLP 7 and two additional attention heads. Specifically, they mention MLP 7 and two extra attention heads were needed for such prompts. In this week, we will identify the new additions to the circuit, and analyze the need for this difference.

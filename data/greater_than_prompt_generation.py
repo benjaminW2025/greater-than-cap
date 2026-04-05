@@ -1,29 +1,5 @@
 import random
 
-# Need to add a word bank of possible nouns
-
-def generate_dataset(num_prompts):
-    """ 
-    Generates prompts for GPT-2 in the form of 'x is less than
-    y, a is less than" 
-    """
-
-    output = []
-    
-    for i in range(num_prompts):
-        # Generate two unique numbers from 0 to 100, and comparison number
-        num = random.randint(1, 99)
-        compare = "18" + str(num)
-
-        # Construct the prompt
-        prompt = "The war lasted from the year " + compare + " to the year 18"
-
-        # Save the generated number and prompt
-        output.append((prompt, num))
-    
-    # Return
-    return output
-
 def generate_full_dataset():
     """
         Generates the complete dataset with XX from 01 to 99
@@ -40,4 +16,18 @@ def generate_full_dataset():
         output.append((prompt, int(num)))
     
     # Return
+    return output
+
+def generate_extension_dataset():
+    """
+        Generates the complete dataset of the extension portion of the project
+    """
+
+    output = []
+
+    for i in range(1, 100):
+        num = f"{i:0d}"
+        prompt = f"1599, 1607, 1633, 1679, 17{num}, 17"
+        output.append((prompt, int(num)))
+
     return output
