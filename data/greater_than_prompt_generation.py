@@ -26,8 +26,8 @@ def generate_extension_dataset():
     output = []
 
     for i in range(1, 100):
-        num = f"{i:0d}"
-        prompt = f"1599, 1607, 1633, 1679, 17{num}, 17"
+        num = f"{i:02d}"
+        prompt = f"1599, 1607, 1633, 1679, 17" + str(num) + ", 17"
         output.append((prompt, int(num)))
 
     return output
